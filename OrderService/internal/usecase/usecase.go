@@ -1,24 +1,21 @@
 package usecase
 
 import (
-	"OrderService/internal/kafka"
-	"OrderService/internal/repository/postgres"
+	"OrderService/OrderService/internal/kafka"
+	"OrderService/OrderService/internal/repository/postgres"
 )
 
-type Usecase interface {
-}
-
-type usecase struct {
+type Usecase struct {
 	kafka        kafka.Kafka
 	pgRepository postgres.OrderRepository
 }
 
-func New(kafka kafka.Kafka) Usecase {
-	return &usecase{
+func New(kafka kafka.Kafka) *Usecase {
+	return &Usecase{
 		kafka: kafka,
 	}
 }
 
-func (uc *usecase) SaveOrderAndSendKafkaMsg() error {
-
+func (uc *Usecase) SaveOrderAndSendKafkaMsg() error {
+	return nil
 }

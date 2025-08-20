@@ -1,19 +1,18 @@
 package config
 
 import (
-	"OrderService/OrderService/internal/kafka"
-	"OrderService/OrderService/internal/repository/postgres"
+	"OrderService/ProducerService/internal/kafka"
 	"github.com/caarlos0/env/v10"
 )
 
 type Config struct {
 	KafkaCfg kafka.Config
-	PgCfg    postgres.Config
 }
 
 func NewConfig() (*Config, error) {
 	var cfg Config
-	if err := env.Parse(&cfg); err != nil {
+	err := env.Parse(&cfg)
+	if err != nil {
 		return nil, err
 	}
 

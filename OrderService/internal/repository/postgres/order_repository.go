@@ -1,7 +1,7 @@
 package postgres
 
 import (
-	"OrderService/internal/model"
+	"OrderService/OrderService/internal/model"
 	"context"
 	"gorm.io/gorm"
 )

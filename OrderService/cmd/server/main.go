@@ -1,6 +1,6 @@
 package main
 
-import "OrderService/internal/app"
+import "OrderService/OrderService/internal/app"
 
 func main() {
 	app.Run()

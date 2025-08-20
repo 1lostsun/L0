@@ -1,15 +1,15 @@
 package model
 
 type OrderRequest struct {
-	OrderUID        string   `json:"order_uid" validate:"required"`
-	TrackNumber     string   `json:"track_number" validate:"required"`
-	Entry           string   `json:"entry" validate:"required"`
-	Delivery        Delivery `json:"delivery" validate:"required,dive"`
-	Payment         Payment  `json:"payment" validate:"required,dive"`
-	Items           []Item   `json:"items" validate:"required,dive,gt=0"`
-	Locale          string   `json:"locale" validate:"required"`
-	CustomerID      string   `json:"customer_id" validate:"required"`
-	DeliveryService string   `json:"delivery_service" validate:"required"`
+	OrderUID        string          `json:"order_uid" validate:"required"`
+	TrackNumber     string          `json:"track_number" validate:"required"`
+	Entry           string          `json:"entry" validate:"required"`
+	Delivery        DeliveryRequest `json:"delivery" validate:"required,dive"`
+	Payment         PaymentRequest  `json:"payment" validate:"required,dive"`
+	Items           []ItemRequest   `json:"items" validate:"required,dive,gt=0"`
+	Locale          string          `json:"locale" validate:"required"`
+	CustomerID      string          `json:"customer_id" validate:"required"`
+	DeliveryService string          `json:"delivery_service" validate:"required"`
 }
 
 type DeliveryRequest struct {
