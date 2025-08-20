@@ -6,8 +6,8 @@ COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
 
-ARG SERVICE=OrderService
-RUN go build -o server ./OrderService/cmd/server
+ARG SERVICE=ProducerService
+RUN go build -o server ./ProducerService/cmd/server
 
-EXPOSE 8081
+EXPOSE 8080
 CMD ["./server"]
