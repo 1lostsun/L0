@@ -7,7 +7,8 @@ import (
 )
 
 type OrderRepository interface {
-	SaveOrder(ctx context.Context, order *model.OrderRequest) error
+	SaveOrder(ctx context.Context, order *model.Order) error
+	GetOrderByID(ctx context.Context, id string) (*model.Order, error)
 }
 
 type orderRepository struct {
@@ -20,7 +21,7 @@ func NewOrderRepository(db *gorm.DB) OrderRepository {
 	}
 }
 
-func (repository *orderRepository) SaveOrder(ctx context.Context, order *model.OrderRequest) error {
+func (repository *orderRepository) SaveOrder(ctx context.Context, order *model.Order) error {
 	err := repository.db.Transaction(func(tx *gorm.DB) error {
 		if err := tx.WithContext(ctx).Create(order).Error; err != nil {
 			return err
@@ -36,8 +37,8 @@ func (repository *orderRepository) SaveOrder(ctx context.Context, order *model.O
 	return nil
 }
 
-func (repository *orderRepository) GetOrderByID(ctx context.Context, id int64) (*model.OrderRequest, error) {
-	var order model.OrderRequest
+func (repository *orderRepository) GetOrderByID(ctx context.Context, id string) (*model.Order, error) {
+	var order model.Order
 	err := repository.db.Transaction(func(tx *gorm.DB) error {
 		if err := tx.WithContext(ctx).Where("id = ?", id).First(&order).Error; err != nil {
 			return err
