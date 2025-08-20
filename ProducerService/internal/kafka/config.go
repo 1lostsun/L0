@@ -1,7 +1,9 @@
 package kafka
 
 import (
+	"github.com/caarlos0/env/v10"
 	"github.com/segmentio/kafka-go"
+	"log"
 )
 
 type Config struct {
@@ -9,11 +11,16 @@ type Config struct {
 	Topic string `env:"KAFKA_TOPIC" envDefault:"testTopic"`
 }
 
-func NewKafkaCfg(config Config) *Kafka {
+func NewKafkaCfg() *Kafka {
+	var cfg Config
+	if err := env.Parse(&cfg); err != nil {
+		log.Fatal(err)
+	}
+
 	return &Kafka{
 		&kafka.Writer{
-			Addr:         kafka.TCP(config.Addr),
-			Topic:        config.Topic,
+			Addr:         kafka.TCP(cfg.Addr),
+			Topic:        cfg.Topic,
 			RequiredAcks: kafka.RequireAll,
 			Async:        false,
 		},

@@ -9,10 +9,10 @@ type Kafka struct {
 	kw *kafka.Writer
 }
 
-func (k *Kafka) Produce(ctx context.Context, msg string) error {
+func (k *Kafka) Produce(ctx context.Context, msg []byte) error {
 	err := k.kw.WriteMessages(
 		ctx, kafka.Message{
-			Value: []byte(msg),
+			Value: msg,
 		})
 
 	if err != nil {

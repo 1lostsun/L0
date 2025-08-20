@@ -4,8 +4,8 @@ type OrderRequest struct {
 	OrderUID        string          `json:"order_uid" validate:"required"`
 	TrackNumber     string          `json:"track_number" validate:"required"`
 	Entry           string          `json:"entry" validate:"required"`
-	Delivery        DeliveryRequest `json:"delivery" validate:"required,dive"`
-	Payment         PaymentRequest  `json:"payment" validate:"required,dive"`
+	Delivery        DeliveryRequest `json:"delivery" validate:"required"`
+	Payment         PaymentRequest  `json:"payment" validate:"required"`
 	Items           []ItemRequest   `json:"items" validate:"required,dive,gt=0"`
 	Locale          string          `json:"locale" validate:"required"`
 	CustomerID      string          `json:"customer_id" validate:"required"`
