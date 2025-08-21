@@ -3,12 +3,14 @@ package config
 import (
 	"OrderService/OrderService/internal/kafka"
 	"OrderService/OrderService/internal/repository/postgres"
+	"OrderService/OrderService/internal/repository/redis"
 	"github.com/caarlos0/env/v10"
 )
 
 type Config struct {
 	KafkaCfg kafka.Config
 	PgCfg    postgres.Config
+	RedisCfg redis.Config
 }
 
 func NewConfig() (*Config, error) {

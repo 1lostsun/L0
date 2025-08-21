@@ -2,7 +2,7 @@ package usecase
 
 import (
 	"OrderService/ProducerService/internal/kafka"
-	"OrderService/ProducerService/model"
+	"OrderService/ProducerService/internal/model"
 	"encoding/json"
 	"fmt"
 	"golang.org/x/net/context"

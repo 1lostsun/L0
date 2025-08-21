@@ -1,8 +1,8 @@
 package handler
 
 import (
+	"OrderService/ProducerService/internal/model"
 	"OrderService/ProducerService/internal/usecase"
-	"OrderService/ProducerService/model"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"net/http"
