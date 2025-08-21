@@ -4,7 +4,6 @@ import (
 	"OrderService/ProducerService/internal/kafka"
 	"OrderService/ProducerService/internal/model"
 	"encoding/json"
-	"fmt"
 	"golang.org/x/net/context"
 )
 
@@ -23,8 +22,6 @@ func (uc *Usecase) SendKafkaMsg(ctx context.Context, req *model.OrderRequest) er
 	if err != nil {
 		return err
 	}
-
-	fmt.Println(msg)
 
 	if err := uc.kafka.Produce(ctx, msg); err != nil {
 		return err

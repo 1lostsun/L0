@@ -83,6 +83,7 @@ services:
     image: redis:7-alpine
     container_name: order-redis
     restart: always
+    command: ["redis-server", "--appendonly", "yes", "--appendfsync", "everysec"]
     ports:
       - "6379:6379"
     volumes:

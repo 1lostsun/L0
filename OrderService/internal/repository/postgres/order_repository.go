@@ -32,10 +32,10 @@ func (repository *OrderRepository) SaveOrder(ctx context.Context, order *model.O
 	return nil
 }
 
-func (repository *OrderRepository) GetOrderByID(ctx context.Context, id string) (*model.Order, error) {
+func (repository *OrderRepository) GetOrderByUID(ctx context.Context, id string) (*model.Order, error) {
 	var order model.Order
 	err := repository.db.Transaction(func(tx *gorm.DB) error {
-		if err := tx.WithContext(ctx).Where("id = ?", id).First(&order).Error; err != nil {
+		if err := tx.WithContext(ctx).Where("order_uid = ?", id).First(&order).Error; err != nil {
 			return err
 		}
 

@@ -1,18 +1,19 @@
 package postgres
 
 import (
+	"OrderService/OrderService/internal/model"
 	"fmt"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 type Config struct {
-	Host     string `envconfig:"DATABASE_HOST" default:"localhost"`
-	Port     int    `envconfig:"DATABASE_PORT" default:"5432"`
-	Username string `envconfig:"DATABASE_USERNAME" default:"postgres"`
-	Password string `envconfig:"DATABASE_PASSWORD" default:"postgres"`
-	Name     string `envconfig:"DATABASE_NAME" default:"postgres"`
-	SSLMode  string `envconfig:"DATABASE_SSLMODE" default:"disable"`
+	Host     string `env:"POSTGRES_HOST" default:"localhost"`
+	Port     int    `env:"POSTGRES_PORT" default:"5432"`
+	Username string `env:"POSTGRES_USERNAME" default:"postgres"`
+	Password string `env:"POSTGRES_PASSWORD" default:"postgres"`
+	Name     string `env:"POSTGRES_NAME" default:"postgres"`
+	SSLMode  string `env:"POSTGRES_SSLMODE" default:"disable"`
 }
 
 func (c *Config) DSN() string {
@@ -32,6 +33,12 @@ func NewDBConfig(cfg Config) (*gorm.DB, error) {
 		return nil, err
 	}
 
-	//err = db.AutoMigrate()
+	if err := db.AutoMigrate(
+		&model.Order{},
+		&model.Delivery{},
+		&model.Payment{},
+		&model.Item{}); err != nil {
+		return nil, err
+	}
 	return db, nil
 }

@@ -12,9 +12,10 @@ type Usecase struct {
 	orderService *service.OrderService
 }
 
-func New(kafka *kafka.Kafka) *Usecase {
+func New(kafka *kafka.Kafka, orderService *service.OrderService) *Usecase {
 	return &Usecase{
-		kafka: kafka,
+		kafka:        kafka,
+		orderService: orderService,
 	}
 }
 
@@ -32,7 +33,9 @@ func (uc *Usecase) ReadKafkaMessage(ctx context.Context) error {
 				log.Println("kafka consume err: ", err)
 				continue
 			}
-
+			if err := uc.orderService.ProcessOrder(ctx, msg); err != nil {
+				log.Println("process order err: ", err)
+			}
 		}
 	}
 }

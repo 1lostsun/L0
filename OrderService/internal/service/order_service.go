@@ -20,20 +20,34 @@ func New(pgRepository *postgres.OrderRepository, redis *redis.Redis) *OrderServi
 	}
 }
 
-func (os *OrderService) ProcessOrder(ctx context.Context, msg []byte) (*model.Order, error) {
+func (orderService *OrderService) ProcessOrder(ctx context.Context, msg []byte) error {
 	var order model.Order
 	err := json.Unmarshal(msg, &order)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	if err := os.redis.Set(order.OrderUID, string(msg)); err != nil {
-		return nil, err
+	if err := orderService.redis.Set(order.OrderUID, msg); err != nil {
+		return err
 	}
 
-	if err := os.pgRepository.SaveOrder(ctx, &order); err != nil {
-		return nil, err
+	if err := orderService.pgRepository.SaveOrder(ctx, &order); err != nil {
+		return err
 	}
 
-	return &order, nil
+	return nil
+}
+
+func (orderService *OrderService) GetOrderByUID(ctx context.Context, orderUID string) ([]byte, error) {
+	redisOrder, err := orderService.redis.Get(orderUID)
+	if err != nil {
+		pgOrder, err := orderService.pgRepository.GetOrderByUID(ctx, orderUID)
+		if err != nil {
+			return nil, err
+		}
+
+		return json.Marshal(pgOrder)
+	}
+
+	return redisOrder, nil
 }

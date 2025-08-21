@@ -6,7 +6,7 @@ type OrderRequest struct {
 	Entry           string          `json:"entry" validate:"required"`
 	Delivery        DeliveryRequest `json:"delivery" validate:"required"`
 	Payment         PaymentRequest  `json:"payment" validate:"required"`
-	Items           []ItemRequest   `json:"items" validate:"required,dive,gt=0"`
+	Items           []ItemRequest   `json:"items" validate:"required,dive"`
 	Locale          string          `json:"locale" validate:"required"`
 	CustomerID      string          `json:"customer_id" validate:"required"`
 	DeliveryService string          `json:"delivery_service" validate:"required"`
