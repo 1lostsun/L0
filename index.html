@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+</head>
+<body>
+<input id="uid" placeholder="order_uid">
+<button onclick="
+        var v = (document.getElementById('uid').value||'').trim();
+        if(!v){ alert('Введите order_uid'); return; }
+        window.open('http://localhost:8082/v1/order/' + encodeURIComponent(v), '_blank');
+    ">Get</button>
+<pre id="out"></pre>
+</body>
+</html>
