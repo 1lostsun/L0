@@ -1,16 +1,12 @@
-# Go build
 *.exe
 *.out
 *.test
 
-# Binaries
 /bin/
 build/
 
-# Env
 .env
 .env.*
 
-# IDE
 .idea/
 .vscode/
