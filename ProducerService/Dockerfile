@@ -1,13 +1,13 @@
-FROM golang:latest
+FROM golang:1.24.6
 
 WORKDIR /app
 
-COPY go.mod go.sum ./
+COPY ProducerService/go.mod ProducerService/go.sum ./
 RUN go mod download
-COPY . .
+COPY ProducerService/ .
 
 ARG SERVICE=ProducerService
-RUN go build -o server ./ProducerService/cmd/server
+RUN go build -o server ./cmd/server
 
 EXPOSE 8080
 CMD ["./server"]

@@ -11,7 +11,7 @@ import (
 )
 
 func Run() {
-	if err := godotenv.Load("ProducerService/.env"); err != nil {
+	if err := godotenv.Load(".env"); err != nil {
 		log.Fatalf("Error loading .env file: %v", err)
 	}
 	engine := gin.Default()
