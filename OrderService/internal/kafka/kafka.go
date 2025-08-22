@@ -1,23 +1,19 @@
 package kafka
 
 import (
-	"context"
 	"github.com/segmentio/kafka-go"
+	"golang.org/x/net/context"
 )
 
 type Kafka struct {
-	kw *kafka.Writer
+	kr *kafka.Reader
 }
 
-func (k *Kafka) Produce(ctx context.Context, msg string) error {
-	err := k.kw.WriteMessages(
-		ctx, kafka.Message{
-			Value: []byte(msg),
-		})
-
+func (k *Kafka) Consume(ctx context.Context) ([]byte, error) {
+	msg, err := k.kr.ReadMessage(ctx)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	return msg.Value, nil
 }

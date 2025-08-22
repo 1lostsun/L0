@@ -1,21 +1,19 @@
 package kafka
 
-import (
-	"github.com/segmentio/kafka-go"
-)
+import "github.com/segmentio/kafka-go"
 
 type Config struct {
-	Addr  string `env:"KAFKA_ADDR" envDefault:"localhost:9092"`
-	Topic string `env:"KAFKA_TOPIC" envDefault:"testTopic"`
+	Broker  string `env:"KAFKA_BROKER" envDefault:"kafka:9092"`
+	Topic   string `env:"KAFKA_TOPIC" envDefault:"ordersTopic"`
+	GroupID string `env:"KAFKA_GROUP_ID" envDefault:"order-service"`
 }
 
 func NewKafkaCfg(config Config) *Kafka {
 	return &Kafka{
-		&kafka.Writer{
-			Addr:         kafka.TCP(config.Addr),
-			Topic:        config.Topic,
-			RequiredAcks: kafka.RequireAll,
-			Async:        false,
-		},
+		kr: kafka.NewReader(kafka.ReaderConfig{
+			Brokers: []string{config.Broker},
+			Topic:   config.Topic,
+			GroupID: config.GroupID,
+		}),
 	}
 }

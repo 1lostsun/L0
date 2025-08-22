@@ -1,0 +1,106 @@
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.4.0
+    container_name: zookeeper
+    restart: always
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    volumes:
+      - zookeeper_data:/var/lib/zookeeper/data
+    networks:
+      - app-network
+  kafka:
+    image: confluentinc/cp-kafka:7.4.0
+    container_name: kafka
+    restart: always
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    depends_on:
+      - zookeeper
+    volumes:
+      - kafka_data:/var/lib/kafka/data
+    networks:
+      - app-network
+  producer-service:
+    build:
+      context: .
+      dockerfile: ProducerService/Dockerfile
+    container_name: producer-service
+    environment:
+      KAFKA_BROKER: kafka:9092
+      KAFKA_TOPIC: ordersTopic
+    depends_on:
+      - kafka
+    ports:
+      - "8081:8080"
+    networks:
+      - app-network
+  order-service:
+    build:
+      context: .
+      dockerfile: OrderService/Dockerfile
+    container_name: order-service
+    environment:
+      KAFKA_BROKER: kafka:9092
+      KAFKA_TOPIC: ordersTopic
+      POSTGRES_HOST: order-postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: lost
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: WBOrders
+      REDIS_HOST: order-redis
+      REDIS_PORT: 6379
+    depends_on:
+      - kafka
+      - order-postgres
+      - order-redis
+    ports:
+      - "8082:8081"
+    networks:
+      - app-network
+  order-postgres:
+    image: postgres:15
+    container_name: order-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: lost
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: WBOrders
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+  order-redis:
+    image: redis:7-alpine
+    container_name: order-redis
+    restart: always
+    command: ["redis-server", "--appendonly", "yes", "--appendfsync", "everysec"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
+  zookeeper_data:
+    driver: local
+  kafka_data:
+    driver: local
+  redis_data:
+    driver: local
+
