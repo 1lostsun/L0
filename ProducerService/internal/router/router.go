@@ -1,7 +1,7 @@
 package router
 
 import (
-	"OrderService/ProducerService/internal/handler"
+	"ProducerService/internal/handler"
 	"github.com/gin-gonic/gin"
 )
 
@@ -20,6 +20,6 @@ func NewRouter(gin *gin.Engine, h *handler.Handler) *Router {
 func (r *Router) InitRoutes() {
 	v1 := r.gin.Group("/v1")
 	{
-		v1.POST("/order", r.h.CreateOrderAndValidateHandler)
+		v1.POST("/order", r.h.CreateOrder)
 	}
 }

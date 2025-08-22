@@ -1,10 +1,10 @@
 package app
 
 import (
-	"OrderService/ProducerService/internal/handler"
-	"OrderService/ProducerService/internal/kafka"
-	"OrderService/ProducerService/internal/router"
-	"OrderService/ProducerService/internal/usecase"
+	"ProducerService/internal/handler"
+	"ProducerService/internal/kafka"
+	"ProducerService/internal/router"
+	"ProducerService/internal/usecase"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"log"

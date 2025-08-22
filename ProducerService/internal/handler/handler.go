@@ -1,8 +1,8 @@
 package handler
 
 import (
-	"OrderService/ProducerService/internal/model"
-	"OrderService/ProducerService/internal/usecase"
+	"ProducerService/internal/model"
+	"ProducerService/internal/usecase"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"net/http"
@@ -18,7 +18,7 @@ func NewHandler(uc *usecase.Usecase) *Handler {
 	}
 }
 
-func (h *Handler) CreateOrderAndValidateHandler(c *gin.Context) {
+func (h *Handler) CreateOrder(c *gin.Context) {
 	ctx := c.Request.Context()
 	var req *model.OrderRequest
 
