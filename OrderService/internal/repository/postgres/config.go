@@ -1,7 +1,7 @@
 package postgres
 
 import (
-	"OrderService/OrderService/internal/model"
+	"OrderService/internal/model"
 	"fmt"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"

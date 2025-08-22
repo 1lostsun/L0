@@ -31,7 +31,7 @@ services:
   producer-service:
     build:
       context: .
-      dockerfile: ./ProducerService/Dockerfile
+      dockerfile: ProducerService/Dockerfile
     container_name: producer-service
     environment:
       KAFKA_BROKER: kafka:9092
@@ -45,7 +45,7 @@ services:
   order-service:
     build:
       context: .
-      dockerfile: ./OrderService/Dockerfile
+      dockerfile: OrderService/Dockerfile
     container_name: order-service
     environment:
       KAFKA_BROKER: kafka:9092

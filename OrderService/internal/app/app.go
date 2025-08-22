@@ -1,14 +1,14 @@
 package app
 
 import (
-	"OrderService/OrderService/internal/config"
-	"OrderService/OrderService/internal/handler"
-	"OrderService/OrderService/internal/kafka"
-	"OrderService/OrderService/internal/repository/postgres"
-	"OrderService/OrderService/internal/repository/redis"
-	"OrderService/OrderService/internal/router"
-	"OrderService/OrderService/internal/service"
-	"OrderService/OrderService/internal/usecase"
+	"OrderService/internal/config"
+	"OrderService/internal/handler"
+	"OrderService/internal/kafka"
+	"OrderService/internal/repository/postgres"
+	"OrderService/internal/repository/redis"
+	"OrderService/internal/router"
+	"OrderService/internal/service"
+	"OrderService/internal/usecase"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"golang.org/x/net/context"
@@ -19,7 +19,7 @@ import (
 )
 
 func Run() {
-	if err := godotenv.Load("OrderService/.env"); err != nil {
+	if err := godotenv.Load(".env"); err != nil {
 		log.Fatalf("Error loading .env file: %v", err)
 	}
 
@@ -42,7 +42,7 @@ func Run() {
 
 	kafkaCfg := kafka.NewKafkaCfg(cfg.KafkaCfg)
 	pgRepository := postgres.NewOrderRepository(db)
-	redisRepository := redis.NewConfig(cfg.RedisCfg)
+	redisRepository := redis.NewRedis(cfg.RedisCfg)
 	orderService := service.New(pgRepository, redisRepository)
 	orderUsecase := usecase.New(kafkaCfg, orderService)
 	orderHandler := handler.NewOrderHandler(orderService)

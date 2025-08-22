@@ -8,9 +8,9 @@ type Config struct {
 	DB       int    `env:"REDIS_DB" envDefault:"0"`
 }
 
-func NewConfig(config Config) *Redis {
+func NewRedis(config Config) *Redis {
 	return &Redis{
-		rdb: redis.NewClient(&redis.Options{
+		RedisDB: redis.NewClient(&redis.Options{
 			Addr:     config.Addr,
 			Password: config.Password,
 			DB:       config.DB,

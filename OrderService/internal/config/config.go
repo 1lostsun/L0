@@ -1,9 +1,9 @@
 package config
 
 import (
-	"OrderService/OrderService/internal/kafka"
-	"OrderService/OrderService/internal/repository/postgres"
-	"OrderService/OrderService/internal/repository/redis"
+	"OrderService/internal/kafka"
+	"OrderService/internal/repository/postgres"
+	"OrderService/internal/repository/redis"
 	"github.com/caarlos0/env/v10"
 )
 
